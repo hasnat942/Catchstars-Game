@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catchstars Mining Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Catchstars Mining Game</h1>
+      <div id="description">
+        Click the button below to collect stars! You can collect up to 100 stars daily. Share your referral link to earn extra stars!
+      </div>
+    </header>
+    <div id="gameArea">
+      <div id="starCount">Stars: <span id="stars">0</span></div>
+      <button id="clickButton">Collect Stars</button>
+    </div>
+    <div id="userIdDisplay">Your ID: <span id="userId">Loading...</span></div>
+    <div id="referral">
+      <input type="text" id="referralLink" readonly>
+      <button id="copyReferralLink">Copy Referral Link</button>
+      <div id="referralMessage"></div>
+    </div>
+    <footer>
+      &copy; 2024 Catchstars Game
+    </footer>
+  </div>
+  <script src="scripts.js"></script>
+</body>

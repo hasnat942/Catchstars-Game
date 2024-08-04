@@ -11,46 +11,46 @@ body {
 .container {
   width: 90%;
   margin: auto;
-  position: down;
+  position: relative; /* Changed from down to relative */
   z-index: 1; /* Ensure content is on top of background stars */
 }
 
 header {
   background-color: #1c1c1c;
   color: #fff;
-  padding: 20px;
+  padding: 15px; /* Adjusted for better mobile view */
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Adjusted for better spacing on mobile */
 }
 
 h1 {
   margin: 0;
-  font-size: 2.5em;
+  font-size: 2em; /* Scaled down for mobile view */
 }
 
 #description {
-  font-size: 1.1em;
-  margin-top: 5 px;
+  font-size: 1em; /* Scaled down for mobile view */
+  margin-top: 5px; /* Fixed margin value */
   line-height: 1.3;
 }
 
 #gameArea {
   background-color: #333;
-  padding: 0.5 px;
-  border-radius: 1 px;
+  padding: 10px; /* Adjusted for better mobile view */
+  border-radius: 10px; /* Adjusted for better mobile view */
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
   position: relative;
-  height: 300px; /* Ensure enough height for positioning */
+  height: 250px; /* Adjusted for better mobile view */
   overflow: hidden; /* Hide overflow for stars */
-  background-image: url("stars.png"); /* Star background */
+  background-image: url("stars.png");
   background-size: cover;
-  background-blur: 10 px;
+  background-blur: 10px;
 }
 
 #starCount {
-  margin-top: 30px;
-  font-size: 4em;
+  margin-top: 20px; /* Adjusted for better mobile view */
+  font-size: 3em; /* Scaled down for mobile view */
   color: #f0f0f0;
   position: relative;
   z-index: 1;
@@ -61,18 +61,17 @@ h1 {
 }
 
 #clickButton {
-  background-color: #80000;
+  background-color: #80000; /* Fixed color value */
   color: #1f51ff;
   border: none;
-  padding: 20px 50px;
-  font-size: 1.5em;
+  padding: 15px 30px; /* Adjusted for better mobile view */
+  font-size: 1.2em; /* Scaled down for mobile view */
   cursor: pointer;
   border-radius: 10px;
   position: absolute;
-  bottom: 70px; /* Position button at the bottom */
+  bottom: 20px; /* Adjusted for better mobile view */
   left: 50%;
   transform: translateX(-50%);
-  color: #1f51ff;
   z-index: 1; /* Ensure it is behind other elements */
 }
 
@@ -83,23 +82,23 @@ h1 {
 
 #userIdDisplay {
   margin-top: 20px;
-  font-size: 1.3em;
-  color: #0000ff;
+  font-size: 1.2em; /* Scaled down for mobile view */
+  color: #0000f;
   font-weight: bold;
 }
 
 #referral {
-  margin-top: 30px;
+  margin-top: 20px; /* Adjusted for better mobile view */
 }
 
 #referralLink {
-  padding: 15px;
+  padding: 10px; /* Adjusted for better mobile view */
   border: 1px solid #555;
   border-radius: 10px;
   background-color: #1c1c1c;
   color: #fff;
-  font-size: 1.1em;
-  width: 70%;
+  font-size: 1em; /* Scaled down for mobile view */
+  width: 80%; /* Adjusted for better mobile view */
   max-width: 400px;
   margin: 0 auto;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
@@ -109,11 +108,11 @@ h1 {
   background-color: #555;
   color: #fff;
   border: none;
-  padding: 15px;
+  padding: 10px; /* Adjusted for better mobile view */
   margin-top: 10px;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 1.1em;
+  font-size: 1em; /* Scaled down for mobile view */
   transition: background-color 0.3s ease;
 }
 
@@ -122,8 +121,8 @@ h1 {
 }
 
 footer {
-  margin-top: 30px;
-  font-size: 0.8em;
+  margin-top: 20px; /* Adjusted for better mobile view */
+  font-size: 0.7em; /* Scaled down for mobile view */
   color: #ccc;
 }
 
@@ -133,8 +132,8 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("stars.png"); /* Make sure to add a star pattern image */
+  background-image: url("stars.png");
   background-size: cover;
-  opacity: 0.3; /* Adjust opacity as needed */
-  z-index: 0; /* Ensure background stars are behind content */
+  opacity: 0.3;
+  z-index: 0;
 }

@@ -12,8 +12,8 @@ const referralBonus = 25;
 // Retrieve or initialize the user ID
 let userId = localStorage.getItem('userId');
 if (!userId) {
-    // Generate a new ID
-    userId = getNextUserId();
+    // Generate a new ID or get it from your Telegram bot server
+    userId = generateUserId();
     localStorage.setItem('userId', userId);
 }
 
@@ -45,11 +45,8 @@ clickButton.addEventListener('click', () => {
 // Handle referral link from URL
 const referrerId = new URLSearchParams(window.location.search).get('ref');
 if (referrerId && referrerId !== userId) {
-    // Simulate awarding referral bonus
-    stars = Math.min(stars + referralBonus, maxStars);
-    starsDisplay.textContent = stars;
-    localStorage.setItem('stars', stars); // Save updated stars to localStorage
-    referralMessage.textContent = `Referral code accepted! You've earned ${referralBonus} stars.`;
+    // Notify the Telegram bot of the referral
+    notifyBotOfReferral(referrerId);
 }
 
 copyReferralLinkButton.addEventListener('click', () => {
@@ -58,12 +55,26 @@ copyReferralLinkButton.addEventListener('click', () => {
     referralMessage.textContent = 'Referral link copied to clipboard!';
 });
 
-// Get the next user ID
-function getNextUserId() {
-    let nextId = parseInt(localStorage.getItem('nextUserId'), 10);
-    if (isNaN(nextId)) {
-        nextId = 1; // Start with ID 1 if not set
-    }
-    localStorage.setItem('nextUserId', nextId + 1); // Increment ID
-    return nextId;
+// Generate a unique user ID (replace with actual method)
+function generateUserId() {
+    // This function should ideally interact with your server or Telegram bot to get a unique ID
+    // Example using a random number
+    return Math.floor(Math.random() * 1000000);
+}
+
+// Notify the Telegram bot about the referral
+function notifyBotOfReferral(referrerId) {
+    // Example: Send referral data to your server or bot
+    fetch(`/referral?referrer=${referrerId}&userId=${userId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                stars = Math.min(stars + referralBonus, maxStars);
+                starsDisplay.textContent = stars;
+                localStorage.setItem('stars', stars); // Save updated stars to localStorage
+                referralMessage.textContent = `Referral code accepted! You've earned ${referralBonus} stars.`;
+            } else {
+                referralMessage.textContent = 'Referral code is invalid or expired.';
+            }
+        });
 }

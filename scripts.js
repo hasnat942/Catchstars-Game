@@ -21,8 +21,8 @@ if (!userId) {
 userIdDisplay.textContent = userId;
 
 // Generate and display referral link
-const baseUrl = window.location.href.split('?')[0];
-const referralLink = `${baseUrl}?ref=${userId}`;
+const telegramBotUsername = 'Catchstars_bot'; // Your bot's username
+const referralLink = `https://t.me/${telegramBotUsername}?start=${userId}`;
 referralLinkInput.value = referralLink;
 
 // Retrieve or initialize the stars count

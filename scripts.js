@@ -42,8 +42,10 @@ clickButton.addEventListener('click', () => {
     }
 });
 
-// Handle referral link from URL
-const referrerId = new URLSearchParams(window.location.search).get('ref');
+// Handle referral link from Telegram bot
+// The `start` parameter is passed in the URL when the user clicks the referral link
+const urlParams = new URLSearchParams(window.location.search);
+const referrerId = urlParams.get('start'); // Get the referrer ID from the 'start' parameter
 if (referrerId && referrerId !== userId) {
     // Notify the Telegram bot of the referral
     notifyBotOfReferral(referrerId);

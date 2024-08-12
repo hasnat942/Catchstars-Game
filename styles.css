@@ -39,11 +39,11 @@ h1::after {
   transform: translateX(-50%);
 }
 
-#stars {
+#coins {
   font-size: 24px;
   margin: 20px 0;
   padding: 10px;
-  background-color: #444; /* Slightly lighter background for the star count */
+  background-color: #444; /* Slightly lighter background for the coin count */
   border-radius: 5px;
 }
 
@@ -115,5 +115,26 @@ input {
 
   input {
     width: 100%;
+  }
+}
+button.animate-done {
+  background-color: #28a745 !important;
+  color: #fff;
+  font-weight: bold;
+  animation: shake 2s ease; /* Add animation here */
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-20px);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  75% {
+    transform: translateX(-20px);
   }
 }

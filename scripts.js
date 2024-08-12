@@ -1,88 +1,107 @@
-const clickButton = document.getElementById('clickButton');
-const starsDisplay = document.getElementById('stars');
-const referralLinkInput = document.getElementById('referralLink');
-const copyReferralLinkButton = document.getElementById('copyReferralLink');
-const referralMessage = document.getElementById('referralMessage');
-const userIdDisplay = document.getElementById('userId');
+const checkInButton = document.getElementById("checkInButton");
+const coinsDisplay = document.getElementById("coins");
+const referralLinkInput = document.getElementById("referralLink");
+const copyReferralLinkButton = document.getElementById("copyReferralLink");
+const referralMessage = document.getElementById("referralMessage");
+const userIdDisplay = document.getElementById("userId");
 
 // Define constants
-const maxDailyStars = 100;
-const referralBonus = 25;
+const dailyCoins = 20;
+const maxCoins = 5000;
+const checkInInterval = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 // Retrieve or initialize the user ID
-let userId = localStorage.getItem('userId');
+let userId = localStorage.getItem("userId");
 if (!userId) {
-    // Generate a new ID or get it from your Telegram bot server
-    userId = generateUserId();
-    localStorage.setItem('userId', userId);
+  userId = generateUserId();
+  localStorage.setItem("userId", userId);
 }
 
 // Display user ID
-userIdDisplay.textContent = `User ID: ${userId}`;
+userIdDisplay.textContent = `Your ID: ${userId}`;
 
 // Generate and display referral link
-const telegramBotUsername = 'Catchstars_bot'; // Your bot's username
+const telegramBotUsername = "Catchstars_bot";
 const referralLink = `https://t.me/${telegramBotUsername}?start=${userId}`;
 referralLinkInput.value = referralLink;
 
-// Retrieve or initialize the stars count and last collected date
-let stars = parseInt(localStorage.getItem('stars'), 10) || 0;
-let lastCollectedDate = localStorage.getItem('lastCollectedDate');
-const today = new Date().toISOString().split('T')[0];
+// Retrieve or initialize the coins count and last check-in time
+let coins = parseInt(localStorage.getItem("coins"), 10);
+let lastCheckIn = parseInt(localStorage.getItem("lastCheckIn"), 10);
+if (isNaN(coins)) {
+  coins = 0;
+}
+if (isNaN(lastCheckIn)) {
+  lastCheckIn = 0;
+}
+coinsDisplay.textContent = coins;
 
-// Reset stars if a new day has started
-if (lastCollectedDate !== today) {
-    localStorage.setItem('lastCollectedDate', today);
-    stars = 0; // Reset daily stars
-    localStorage.setItem('stars', stars);
+// Check if the button should be disabled
+if (Date.now() - lastCheckIn < checkInInterval) {
+  disableCheckInButton();
 }
 
-// Display the current stars
-starsDisplay.textContent = stars;
+checkInButton.addEventListener("click", () => {
+  const now = Date.now();
+  if (now - lastCheckIn >= checkInInterval) {
+    coins = Math.min(coins + dailyCoins, maxCoins);
+    coinsDisplay.textContent = coins;
+    localStorage.setItem("coins", coins);
+    localStorage.setItem("lastCheckIn", now);
 
-// Handle click event for collecting stars
-clickButton.addEventListener('click', () => {
-    if (stars < maxDailyStars) {
-        stars++;
-        starsDisplay.textContent = stars;
-        localStorage.setItem('stars', stars); // Save stars to localStorage
-    } else {
-        alert('Daily limit of 100 stars reached!');
-    }
+    // Animation
+    checkInButton.textContent = "Done!";
+    checkInButton.classList.add("animate-done");
+    disableCheckInButton();
+
+    setTimeout(() => {
+      alert(`You collected ${dailyCoins} coins today!`);
+    }, 2000); // Delayed alert for animation
+  } else {
+    alert("You can only check-in once every 24 hours.");
+  }
 });
 
-// Handle referral link from Telegram bot
-const urlParams = new URLSearchParams(window.location.search);
-const referrerId = urlParams.get('start'); // Get the referrer ID from the 'start' parameter
-if (referrerId && referrerId !== userId) {
-    notifyBotOfReferral(referrerId);
+function disableCheckInButton() {
+  checkInButton.disabled = true;
+  checkInButton.style.backgroundColor = "#999"; // Change button color to indicate disabled state
+  checkInButton.textContent = "Check-In Done! (Try again tomorrow)";
+  setTimeout(() => {
+    enableCheckInButton();
+  }, checkInInterval - (Date.now() - lastCheckIn));
 }
 
-copyReferralLinkButton.addEventListener('click', () => {
-    referralLinkInput.select();
-    document.execCommand('copy');
-    referralMessage.textContent = 'Referral link copied to clipboard!';
-});
+function enableCheckInButton() {
+  checkInButton.disabled = false;
+  checkInButton.style.backgroundColor = "#555";
+  checkInButton.textContent = "Daily Check-In";
+  checkInButton.classList.remove("animate-done");
+}
 
-// Generate a unique user ID (replace with actual method)
 function generateUserId() {
-    // This function should ideally interact with your server or Telegram bot to get a unique ID
-    return Math.floor(Math.random() * 1000000);
+  return Math.floor(Math.random() * 1000000);
 }
+const followYouTubeButton = document.getElementById("followYouTube");
+const followTwitterButton = document.getElementById("followTwitter");
+const followTelegramButton = document.getElementById("followTelegram");
 
-// Notify the Telegram bot about the referral
-function notifyBotOfReferral(referrerId) {
-    // Example: Send referral data to your server or bot
-    fetch(`/referral?referrer=${referrerId}&userId=${userId}`, { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                stars = Math.min(stars + referralBonus, maxDailyStars);
-                starsDisplay.textContent = stars;
-                localStorage.setItem('stars', stars); // Save updated stars to localStorage
-                referralMessage.textContent = `Referral code accepted! You've earned ${referralBonus} stars.`;
-            } else {
-                referralMessage.textContent = 'Referral code is invalid or expired.';
-            }
-        });
+followYouTubeButton.addEventListener("click", () => {
+  openLinkInNewTab("https://www.youtube.com/@catchstars942");
+});
+
+followTwitterButton.addEventListener("click", () => {
+  openLinkInNewTab("https://x.com/catchstars_CTH?t=5F3k7CY_6F3B2eM9OmPPVw&s=09");
+});
+
+followTelegramButton.addEventListener("click", () => {
+  openLinkInNewTab("https://t.me/catchstars942");
+});
+
+function openLinkInNewTab(url) {
+  const win = window.open(url, "_blank");
+  if (win) {
+    win.focus(); // Ensure the new tab is focused
+  } else {
+    alert("Please allow pop-ups for this website.");
+  }
 }

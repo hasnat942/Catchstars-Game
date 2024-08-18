@@ -1,3 +1,10 @@
+import { db } from "./index.html";
+import {
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
 const checkInButton = document.getElementById("checkInButton");
 const coinsDisplay = document.getElementById("coins");
 const referralLinkInput = document.getElementById("referralLink");
@@ -17,6 +24,9 @@ if (!userId) {
   localStorage.setItem("userId", userId);
 }
 
+// Firestore document reference
+const coinsDocRef = doc(db, "users", userId);
+
 // Display user ID
 userIdDisplay.textContent = `Your ID: ${userId}`;
 
@@ -25,29 +35,38 @@ const telegramBotUsername = "Catchstars_bot";
 const referralLink = `https://t.me/${telegramBotUsername}?start=${userId}`;
 referralLinkInput.value = referralLink;
 
-// Retrieve or initialize the coins count and last check-in time
-let coins = parseInt(localStorage.getItem("coins"), 10);
-let lastCheckIn = parseInt(localStorage.getItem("lastCheckIn"), 10);
-if (isNaN(coins)) {
-  coins = 0;
-}
-if (isNaN(lastCheckIn)) {
-  lastCheckIn = 0;
-}
-coinsDisplay.textContent = coins;
+// Retrieve or initialize the coins count and last check-in time from Firestore
+let coins = 0;
+let lastCheckIn = 0;
 
-// Check if the button should be disabled
-if (Date.now() - lastCheckIn < checkInInterval) {
-  disableCheckInButton();
+async function initializeCoins() {
+  const coinsDoc = await getDoc(coinsDocRef);
+  if (coinsDoc.exists()) {
+    coins = coinsDoc.data().coins;
+    lastCheckIn = coinsDoc.data().lastCheckIn;
+    coinsDisplay.textContent = coins;
+
+    // Check if the button should be disabled
+    if (Date.now() - lastCheckIn < checkInInterval) {
+      disableCheckInButton();
+    }
+  } else {
+    coins = 0;
+    lastCheckIn = 0;
+    coinsDisplay.textContent = coins;
+    await setDoc(coinsDocRef, { coins: 0, lastCheckIn: 0 });
+  }
 }
 
-checkInButton.addEventListener("click", () => {
+initializeCoins();
+
+checkInButton.addEventListener("click", async () => {
   const now = Date.now();
   if (now - lastCheckIn >= checkInInterval) {
     coins = Math.min(coins + dailyCoins, maxCoins);
     coinsDisplay.textContent = coins;
-    localStorage.setItem("coins", coins);
-    localStorage.setItem("lastCheckIn", now);
+    lastCheckIn = now;
+    await setDoc(coinsDocRef, { coins, lastCheckIn });
 
     // Animation
     checkInButton.textContent = "Done!";
@@ -81,6 +100,7 @@ function enableCheckInButton() {
 function generateUserId() {
   return Math.floor(Math.random() * 1000000);
 }
+
 const followYouTubeButton = document.getElementById("followYouTube");
 const followTwitterButton = document.getElementById("followTwitter");
 const followTelegramButton = document.getElementById("followTelegram");
@@ -90,7 +110,9 @@ followYouTubeButton.addEventListener("click", () => {
 });
 
 followTwitterButton.addEventListener("click", () => {
-  openLinkInNewTab("https://x.com/catchstars_CTH?t=5F3k7CY_6F3B2eM9OmPPVw&s=09");
+  openLinkInNewTab(
+    "https://x.com/catchstars_CTH?t=5F3k7CY_6F3B2eM9OmPPVw&s=09"
+  );
 });
 
 followTelegramButton.addEventListener("click", () => {

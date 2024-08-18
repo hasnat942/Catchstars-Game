@@ -1,10 +1,3 @@
-import { db } from "./index.html";
-import {
-  doc,
-  getDoc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-
 const checkInButton = document.getElementById("checkInButton");
 const coinsDisplay = document.getElementById("coins");
 const referralLinkInput = document.getElementById("referralLink");
@@ -24,9 +17,6 @@ if (!userId) {
   localStorage.setItem("userId", userId);
 }
 
-// Firestore document reference
-const coinsDocRef = doc(db, "users", userId);
-
 // Display user ID
 userIdDisplay.textContent = `Your ID: ${userId}`;
 
@@ -35,47 +25,40 @@ const telegramBotUsername = "Catchstars_bot";
 const referralLink = `https://t.me/${telegramBotUsername}?start=${userId}`;
 referralLinkInput.value = referralLink;
 
-// Retrieve or initialize the coins count and last check-in time from Firestore
-let coins = 0;
-let lastCheckIn = 0;
+// Retrieve or initialize the coins count and last check-in time
+let coins = parseInt(localStorage.getItem("coins"), 10);
+let lastCheckIn = parseInt(localStorage.getItem("lastCheckIn"), 10);
+if (isNaN(coins)) {
+  coins = 0;
+}
+if (isNaN(lastCheckIn)) {
+  lastCheckIn = 0;
+}
+coinsDisplay.textContent = coins;
 
-async function initializeCoins() {
-  const coinsDoc = await getDoc(coinsDocRef);
-  if (coinsDoc.exists()) {
-    coins = coinsDoc.data().coins;
-    lastCheckIn = coinsDoc.data().lastCheckIn;
-    coinsDisplay.textContent = coins;
-
-    // Check if the button should be disabled
-    if (Date.now() - lastCheckIn < checkInInterval) {
-      disableCheckInButton();
-    }
-  } else {
-    coins = 0;
-    lastCheckIn = 0;
-    coinsDisplay.textContent = coins;
-    await setDoc(coinsDocRef, { coins: 0, lastCheckIn: 0 });
-  }
+// Check if the button should be disabled
+if (Date.now() - lastCheckIn < checkInInterval) {
+  disableCheckInButton();
 }
 
-initializeCoins();
-
-checkInButton.addEventListener("click", async () => {
+checkInButton.addEventListener("click", () => {
   const now = Date.now();
   if (now - lastCheckIn >= checkInInterval) {
     coins = Math.min(coins + dailyCoins, maxCoins);
     coinsDisplay.textContent = coins;
-    lastCheckIn = now;
-    await setDoc(coinsDocRef, { coins, lastCheckIn });
+    localStorage.setItem("coins", coins);
+    localStorage.setItem("lastCheckIn", now);
 
-    // Animation
+    // Disable button immediately and show "Done!" text
+    checkInButton.disabled = true;
     checkInButton.textContent = "Done!";
     checkInButton.classList.add("animate-done");
-    disableCheckInButton();
 
+    // Set a 2-second timeout for alert and then re-enable after 24 hours
     setTimeout(() => {
       alert(`You collected ${dailyCoins} coins today!`);
-    }, 2000); // Delayed alert for animation
+      disableCheckInButton();  // Keep the button disabled until 24 hours have passed
+    }, 2000);
   } else {
     alert("You can only check-in once every 24 hours.");
   }
@@ -101,6 +84,7 @@ function generateUserId() {
   return Math.floor(Math.random() * 1000000);
 }
 
+// Handling follow buttons
 const followYouTubeButton = document.getElementById("followYouTube");
 const followTwitterButton = document.getElementById("followTwitter");
 const followTelegramButton = document.getElementById("followTelegram");
@@ -110,9 +94,7 @@ followYouTubeButton.addEventListener("click", () => {
 });
 
 followTwitterButton.addEventListener("click", () => {
-  openLinkInNewTab(
-    "https://x.com/catchstars_CTH?t=5F3k7CY_6F3B2eM9OmPPVw&s=09"
-  );
+  openLinkInNewTab("https://x.com/catchstars_CTH?t=5F3k7CY_6F3B2eM9OmPPVw&s=09");
 });
 
 followTelegramButton.addEventListener("click", () => {

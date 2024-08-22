@@ -7,25 +7,56 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <nav>
-    <ul>
-      <li><a href="index.html">Mine to Earn</a></li>
-      <li><a href="friends.html">Friends List</a></li>
-      <li><a href="rewards.html">Rewards</a></li>
-    </ul>
-  </nav>
-
   <div class="container">
     <h1>Catchstar Mine to Earn</h1>
-    <div id="coins" class="info-box">0</div>
-    <button id="checkInButton">Daily Check-In</button>
-    <input id="referralLink" type="text" readonly>
-    <button id="copyReferralLink">Copy Referral Link</button>
-    <div id="referralMessage"></div>
-    <div id="userId" class="info-box"></div>
+    
+    <div id="userInfo">
+      <h2>Your ID: <span id="userId"></span></h2>
+      <button id="viewOtherProfileButton">Search/View Other User's ID</button>
+      <input type="text" id="searchUserId" placeholder="Enter ID to search" style="display:none;">
+      <div id="searchedUserInfo" class="info-box"></div>
+    </div>
+    
+    <div class="section">
+      <h2>Profile Settings</h2>
+      <button id="profileSettingsButton">Open Profile Settings</button>
+      <div id="profileSettings" style="display:none;">
+        <label for="profileName">Name:</label>
+        <input type="text" id="profileName" placeholder="Enter your name"><br>
+        <label for="telegramWallet">Telegram Wallet:</label>
+        <input type="text" id="telegramWallet" placeholder="Enter Telegram wallet address"><br>
+        <button id="saveSettingsButton">Save Settings</button>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Daily Mining</h2>
+      <div id="coins" class="info-box">0</div>
+      <button id="checkInButton">Daily Check-In</button>
+    </div>
+    
+    <div class="section">
+      <h2>Referral System</h2>
+      <input id="referralLink" type="text" readonly>
+      <button id="copyReferralLink">Copy Referral Link</button>
+      <div id="referralMessage"></div>
+    </div>
+    
+    <div class="section">
+      <h2>Friends List</h2>
+      <div id="friendsList" class="info-box">No friends yet.</div>
+    </div>
+    
+    <div class="section">
+      <h2>Rewards</h2>
+      <div id="socialTasks" class="info-box">
+        <p>Follow YouTube: <span>125 Tokens</span></p>
+        <p>Follow Twitter: <span>125 Tokens</span></p>
+        <p>Follow Telegram: <span>125 Tokens</span></p>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-

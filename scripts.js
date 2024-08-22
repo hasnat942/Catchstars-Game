@@ -5,7 +5,7 @@ const copyReferralLinkButton = document.getElementById("copyReferralLink");
 const referralMessage = document.getElementById("referralMessage");
 const userIdDisplay = document.getElementById("userId");
 
-// Define constants
+// Constants
 const dailyCoins = 20;
 const maxCoins = 5000;
 const checkInInterval = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -49,16 +49,13 @@ checkInButton.addEventListener("click", () => {
     localStorage.setItem("coins", coins);
     localStorage.setItem("lastCheckIn", now);
 
-    // Disable button immediately and show "Done!" text
+    // Disable button immediately
     checkInButton.disabled = true;
     checkInButton.textContent = "Done!";
     checkInButton.classList.add("animate-done");
 
-    // Set a 2-second timeout for alert and then re-enable after 24 hours
-    setTimeout(() => {
-      alert(`You collected ${dailyCoins} coins today!`);
-      disableCheckInButton();  // Keep the button disabled until 24 hours have passed
-    }, 2000);
+    // Disable button for 24 hours
+    disableCheckInButton();
   } else {
     alert("You can only check-in once every 24 hours.");
   }
@@ -84,7 +81,15 @@ function generateUserId() {
   return Math.floor(Math.random() * 1000000);
 }
 
-// Handling follow buttons
+// Copy referral link to clipboard
+copyReferralLinkButton.addEventListener("click", () => {
+  referralLinkInput.select();
+  referralLinkInput.setSelectionRange(0, 99999); // For mobile devices
+  document.execCommand("copy");
+  referralMessage.textContent = "Referral link copied!";
+});
+
+// Handle follow buttons
 const followYouTubeButton = document.getElementById("followYouTube");
 const followTwitterButton = document.getElementById("followTwitter");
 const followTelegramButton = document.getElementById("followTelegram");
@@ -94,18 +99,4 @@ followYouTubeButton.addEventListener("click", () => {
 });
 
 followTwitterButton.addEventListener("click", () => {
-  openLinkInNewTab("https://x.com/catchstars_CTH?t=5F3k7CY_6F3B2eM9OmPPVw&s=09");
-});
-
-followTelegramButton.addEventListener("click", () => {
-  openLinkInNewTab("https://t.me/catchstars942");
-});
-
-function openLinkInNewTab(url) {
-  const win = window.open(url, "_blank");
-  if (win) {
-    win.focus(); // Ensure the new tab is focused
-  } else {
-    alert("Please allow pop-ups for this website.");
-  }
-}
+  openLinkInNewTab("https://x.com/catchstars_CTH?t=5F3k7

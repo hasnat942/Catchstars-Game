@@ -1,70 +1,72 @@
-/* Basic reset */
-body,
-html {
+body, html {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #1e1e1e; /* Dark background for a professional look */
-  color: #fff; /* Light text color */
+  background-color: #1e1e1e;
+  color: #fff;
   text-align: center;
+}
+
+nav {
+  background-color: #000;
+  padding: 10px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
 }
 
 .container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 20px;
-  background-color: #333; /* Dark container background */
+  background-color: #333;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
-  color: #fff; /* White color for the title */
-  font-weight: bold; /* Make title bold */
-  position: relative; /* Position relative for the bar */
-  margin: 20px 0;
-  padding-bottom: 10px;
+  color: #1e90ff;
+  font-weight: bold;
 }
 
-h1::after {
-  content: "";
-  display: block;
-  width: 80%;
-  height: 4px;
-  background-color: #fff; /* White bar */
-  margin: 0 auto;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-#coins {
-  font-size: 24px;
-  margin: 20px 0;
+.info-box {
+  background-color: #444;
   padding: 10px;
-  background-color: #444; /* Slightly lighter background for the coin count */
   border-radius: 5px;
+  margin: 20px 0;
 }
 
 button {
-  background-color: #555; /* Dark button background */
-  color: #fff; /* Light button text */
+  background-color: #555;
+  color: #fff;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  margin: 10px;
   transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
-  background-color: #666; /* Slightly lighter on hover */
+  background-color: #666;
 }
 
 button:active {
-  transform: scale(0.98); /* Button press effect */
+  transform: scale(0.98);
 }
 
 input {
@@ -78,35 +80,6 @@ input {
   margin: 10px 0;
 }
 
-#referralMessage {
-  margin: 10px 0;
-  color: #fff; /* White color for messages */
-}
-
-#userId {
-  margin: 20px 0;
-  font-size: 18px;
-  color: #fff; /* White color for user ID */
-}
-
-#followYouTube,
-#followTwitter,
-#followTelegram {
-  background-color: #555;
-}
-
-#followYouTube:hover {
-  background-color: #f00; /* Red for YouTube */
-}
-
-#followTwitter:hover {
-  background-color: #1da1f2; /* Twitter blue */
-}
-
-#followTelegram:hover {
-  background-color: #0088cc; /* Telegram blue */
-}
-
 @media (max-width: 600px) {
   button {
     width: 100%;
@@ -115,26 +88,5 @@ input {
 
   input {
     width: 100%;
-  }
-}
-button.animate-done {
-  background-color: #28a745 !important;
-  color: #fff;
-  font-weight: bold;
-  animation: shake 2s ease; /* Add animation here */
-}
-
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-20px);
-  }
-  50% {
-    transform: translateX(20px);
-  }
-  75% {
-    transform: translateX(-20px);
   }
 }

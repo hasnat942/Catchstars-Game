@@ -141,5 +141,3 @@ saveSettingsButton.addEventListener("click", () => {
     alert("Please fill in all required fields.");
   }
 });
-
-

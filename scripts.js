@@ -67,7 +67,7 @@ checkInButton.addEventListener("click", () => {
     // Set a 2-second timeout for alert and then re-enable after 24 hours
     setTimeout(() => {
       alert(`You collected ${dailyCoins} coins today!`);
-      disableCheckInButton(); // Keep the button disabled until 24 hours have passed
+      disableCheckInButton();  // Keep the button disabled until 24 hours have passed
     }, 2000);
   } else {
     alert("You can only check-in once every 24 hours.");
@@ -121,7 +121,7 @@ saveProfileButton.addEventListener("click", () => {
 });
 
 // Function to handle social tasks
-socialButtons.forEach((button) => {
+socialButtons.forEach(button => {
   button.addEventListener("click", () => {
     if (!button.classList.contains("completed")) {
       coins = Math.min(coins + rewardPerSocialTask, maxCoins);
@@ -129,9 +129,7 @@ socialButtons.forEach((button) => {
       localStorage.setItem("coins", coins);
       button.classList.add("completed");
       button.textContent = "Reward Claimed";
-      alert(
-        `You earned ${rewardPerSocialTask} tokens for completing this task!`
-      );
+      alert(`You earned ${rewardPerSocialTask} tokens for completing this task!`);
     } else {
       alert("You have already claimed this reward.");
     }

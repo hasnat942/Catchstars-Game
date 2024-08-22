@@ -1,173 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catchstars Coin Collection</title>
+  <title>Catchstar Mine to Earn</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Mine to Earn</a></li>
+      <li><a href="friends.html">Friends List</a></li>
+      <li><a href="rewards.html">Rewards</a></li>
+    </ul>
+  </nav>
+
   <div class="container">
-    <h1>Catchstars Coin Collection</h1>
-    <p>Welcome to Catchstars! Check in daily to collect coins. The more referrals you have, the more coins you earn each day. Collect thousands of coins over three months!</p>
-    <div id="coins">0</div>
+    <h1>Catchstar Mine to Earn</h1>
+    <div id="coins" class="info-box">0</div>
     <button id="checkInButton">Daily Check-In</button>
-    <input type="text" id="referralLink" readonly>
+    <input id="referralLink" type="text" readonly>
     <button id="copyReferralLink">Copy Referral Link</button>
     <div id="referralMessage"></div>
-    <div id="userId"></div>
-
-    <h2>Follow Us</h2>
-    <button id="followYouTube">Follow on YouTube</button>
-    <button id="followTwitter">Follow on Twitter</button>
-    <button id="followTelegram">Follow on Telegram</button>
+    <div id="userId" class="info-box"></div>
   </div>
 
-  <!-- Firebase SDK and Firestore -->
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js";
-
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // Your custom scripts
-    const checkInButton = document.getElementById("checkInButton");
-    const coinsDisplay = document.getElementById("coins");
-    const referralLinkInput = document.getElementById("referralLink");
-    const copyReferralLinkButton = document.getElementById("copyReferralLink");
-    const referralMessage = document.getElementById("referralMessage");
-    const userIdDisplay = document.getElementById("userId");
-
-    // Define constants
-    const dailyCoins = 20;
-    const maxCoins = 5000;
-    const checkInInterval = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-    // Retrieve or initialize the user ID
-    let userId = localStorage.getItem("userId");
-    if (!userId) {
-      userId = generateUserId();
-      localStorage.setItem("userId", userId);
-    }
-
-    // Firestore document reference
-    const coinsDocRef = doc(db, "users", userId);
-
-    // Display user ID
-    userIdDisplay.textContent = `Your ID: ${userId}`;
-
-    // Generate and display referral link
-    const telegramBotUsername = "Catchstars_bot";
-    const referralLink = `https://t.me/${telegramBotUsername}?start=${userId}`;
-    referralLinkInput.value = referralLink;
-
-    // Retrieve or initialize the coins count and last check-in time from Firestore
-    let coins = 0;
-    let lastCheckIn = 0;
-
-    async function initializeCoins() {
-      const coinsDoc = await getDoc(coinsDocRef);
-      if (coinsDoc.exists()) {
-        coins = coinsDoc.data().coins;
-        lastCheckIn = coinsDoc.data().lastCheckIn;
-        coinsDisplay.textContent = coins;
-
-        // Check if the button should be disabled
-        if (Date.now() - lastCheckIn < checkInInterval) {
-          disableCheckInButton();
-        }
-      } else {
-        coins = 0;
-        lastCheckIn = 0;
-        coinsDisplay.textContent = coins;
-        await setDoc(coinsDocRef, { coins: 0, lastCheckIn: 0 });
-      }
-    }
-
-    initializeCoins();
-
-    checkInButton.addEventListener("click", async () => {
-      const now = Date.now();
-      if (now - lastCheckIn >= checkInInterval) {
-        coins = Math.min(coins + dailyCoins, maxCoins);
-        coinsDisplay.textContent = coins;
-        lastCheckIn = now;
-        await setDoc(coinsDocRef, { coins, lastCheckIn });
-
-        // Animation
-        checkInButton.textContent = "Done!";
-        checkInButton.classList.add("animate-done");
-        disableCheckInButton();
-
-        setTimeout(() => {
-          alert(`You collected ${dailyCoins} coins today!`);
-        }, 2000); // Delayed alert for animation
-      } else {
-        alert("You can only check-in once every 24 hours.");
-      }
-    });
-
-    function disableCheckInButton() {
-      checkInButton.disabled = true;
-      checkInButton.style.backgroundColor = "#999"; // Change button color to indicate disabled state
-      checkInButton.textContent = "Check-In Done! (Try again tomorrow)";
-      setTimeout(() => {
-        enableCheckInButton();
-      }, checkInInterval - (Date.now() - lastCheckIn));
-    }
-
-    function enableCheckInButton() {
-      checkInButton.disabled = false;
-      checkInButton.style.backgroundColor = "#555";
-      checkInButton.textContent = "Daily Check-In";
-      checkInButton.classList.remove("animate-done");
-    }
-
-    function generateUserId() {
-      return Math.floor(Math.random() * 1000000);
-    }
-
-    const followYouTubeButton = document.getElementById("followYouTube");
-    const followTwitterButton = document.getElementById("followTwitter");
-    const followTelegramButton = document.getElementById("followTelegram");
-
-    followYouTubeButton.addEventListener("click", () => {
-      openLinkInNewTab("https://www.youtube.com/@catchstars942");
-    });
-
-    followTwitterButton.addEventListener("click", () => {
-      openLinkInNewTab("https://x.com/catchstars_CTH?t=5F3k7CY_6F3B2eM9OmPPVw&s=09");
-    });
-
-    followTelegramButton.addEventListener("click", () => {
-      openLinkInNewTab("https://t.me/catchstars942");
-    });
-
-    function openLinkInNewTab(url) {
-      const win = window.open(url, "_blank");
-      if (win) {
-        win.focus(); // Ensure the new tab is focused
-      } else {
-        alert("Please allow pop-ups for this website.");
-      }
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
-
 </html>

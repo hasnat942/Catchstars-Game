@@ -7,28 +7,6 @@ body, html {
   text-align: center;
 }
 
-nav {
-  background-color: #000;
-  padding: 10px;
-}
-
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-
-nav ul li {
-  margin: 0 10px;
-}
-
-nav ul li a {
-  color: #fff;
-  text-decoration: none;
-}
-
 .container {
   max-width: 800px;
   margin: 20px auto;
@@ -41,6 +19,16 @@ nav ul li a {
 h1 {
   color: #1e90ff;
   font-weight: bold;
+}
+
+h2 {
+  color: #1e90ff;
+  font-weight: normal;
+  margin-top: 10px;
+}
+
+.section {
+  margin-bottom: 20px;
 }
 
 .info-box {

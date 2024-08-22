@@ -1,23 +1,14 @@
-// Elements
 const checkInButton = document.getElementById("checkInButton");
 const coinsDisplay = document.getElementById("coins");
 const referralLinkInput = document.getElementById("referralLink");
 const copyReferralLinkButton = document.getElementById("copyReferralLink");
 const referralMessage = document.getElementById("referralMessage");
 const userIdDisplay = document.getElementById("userId");
-const settingsButton = document.getElementById("settingsButton");
-const settingsModal = document.getElementById("settingsModal");
-const closeSettingsButton = document.querySelector("#settingsModal .close");
-const profileNameInput = document.getElementById("profileName");
-const profileWalletInput = document.getElementById("profileWallet");
-const saveProfileButton = document.getElementById("saveProfile");
-const socialButtons = document.querySelectorAll(".social-rewards button");
 
-// Constants
+// Define constants
 const dailyCoins = 20;
 const maxCoins = 5000;
 const checkInInterval = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-const rewardPerSocialTask = 125;
 
 // Retrieve or initialize the user ID
 let userId = localStorage.getItem("userId");
@@ -50,7 +41,6 @@ if (Date.now() - lastCheckIn < checkInInterval) {
   disableCheckInButton();
 }
 
-// Check-in button functionality
 checkInButton.addEventListener("click", () => {
   const now = Date.now();
   if (now - lastCheckIn >= checkInInterval) {
@@ -67,14 +57,13 @@ checkInButton.addEventListener("click", () => {
     // Set a 2-second timeout for alert and then re-enable after 24 hours
     setTimeout(() => {
       alert(`You collected ${dailyCoins} coins today!`);
-      disableCheckInButton();  // Keep the button disabled until 24 hours have passed
+      disableCheckInButton(); // Keep the button disabled until 24 hours have passed
     }, 2000);
   } else {
     alert("You can only check-in once every 24 hours.");
   }
 });
 
-// Function to disable the check-in button
 function disableCheckInButton() {
   checkInButton.disabled = true;
   checkInButton.style.backgroundColor = "#999"; // Change button color to indicate disabled state
@@ -84,7 +73,6 @@ function disableCheckInButton() {
   }, checkInInterval - (Date.now() - lastCheckIn));
 }
 
-// Function to enable the check-in button
 function enableCheckInButton() {
   checkInButton.disabled = false;
   checkInButton.style.backgroundColor = "#555";
@@ -92,53 +80,64 @@ function enableCheckInButton() {
   checkInButton.classList.remove("animate-done");
 }
 
-// Generate a random user ID
 function generateUserId() {
   return Math.floor(Math.random() * 1000000);
 }
 
-// Function to handle the profile settings modal
-settingsButton.addEventListener("click", () => {
-  settingsModal.style.display = "block";
-});
-
-closeSettingsButton.addEventListener("click", () => {
-  settingsModal.style.display = "none";
-});
-
-saveProfileButton.addEventListener("click", () => {
-  const name = profileNameInput.value.trim();
-  const walletAddress = profileWalletInput.value.trim();
-
-  if (name && walletAddress) {
-    localStorage.setItem("profileName", name);
-    localStorage.setItem("profileWallet", walletAddress);
-    alert("Profile settings saved successfully.");
-    settingsModal.style.display = "none";
-  } else {
-    alert("Please fill in both fields.");
-  }
-});
-
-// Function to handle social tasks
-socialButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    if (!button.classList.contains("completed")) {
-      coins = Math.min(coins + rewardPerSocialTask, maxCoins);
-      coinsDisplay.textContent = coins;
-      localStorage.setItem("coins", coins);
-      button.classList.add("completed");
-      button.textContent = "Reward Claimed";
-      alert(`You earned ${rewardPerSocialTask} tokens for completing this task!`);
-    } else {
-      alert("You have already claimed this reward.");
-    }
-  });
-});
-
-// Function to handle copying referral link
+// Handling referral link copy
 copyReferralLinkButton.addEventListener("click", () => {
   referralLinkInput.select();
   document.execCommand("copy");
   alert("Referral link copied to clipboard!");
+});
+
+// Handling social tasks
+const socialTasks = document.querySelectorAll(".social-rewards button");
+
+socialTasks.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    if (!button.classList.contains("completed")) {
+      // Add reward logic here
+      coins = Math.min(coins + 125, maxCoins);
+      coinsDisplay.textContent = coins;
+      localStorage.setItem("coins", coins);
+
+      // Mark task as completed
+      button.classList.add("completed");
+      button.textContent = `Completed - 125 Tokens`;
+      alert(`You earned 125 tokens for completing a social task!`);
+    } else {
+      alert("You have already completed this task.");
+    }
+  });
+});
+
+// Profile settings modal
+const settingsButton = document.getElementById("settingsButton");
+const settingsModal = document.getElementById("settingsModal");
+const closeModal = document.querySelector(".modal .close");
+const saveSettingsButton = document.getElementById("saveSettings");
+
+settingsButton.addEventListener("click", () => {
+  settingsModal.style.display = "block";
+});
+
+closeModal.addEventListener("click", () => {
+  settingsModal.style.display = "none";
+});
+
+saveSettingsButton.addEventListener("click", () => {
+  const name = document.getElementById("name").value;
+  const telegramWallet = document.getElementById("telegramWallet").value;
+
+  if (name && telegramWallet) {
+    // Save profile settings
+    localStorage.setItem("profileName", name);
+    localStorage.setItem("telegramWallet", telegramWallet);
+
+    alert("Profile settings saved successfully!");
+    settingsModal.style.display = "none";
+  } else {
+    alert("Please fill in all required fields.");
+  }
 });

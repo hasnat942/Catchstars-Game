@@ -1,18 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catchstar Mine to Earn</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catchstar Mine to Earn</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-
+  <div class="container">
     <h1>Catchstar Mine to Earn</h1>
-
+    <div id="coins">0</div>
     <button id="checkInButton">Daily Check-In</button>
-    <div id="coins">Coins: 0</div>
+    <input type="text" id="referralLink" readonly>
+    <button id="copyReferralLink">Copy Referral Link</button>
+    <div id="referralMessage"></div>
+    <div id="userId">Your ID: 123456</div>
 
-    <script src="script.js"></script>
+    <div class="social-rewards">
+      <button id="followYouTube">Follow YouTube</button>
+      <button id="followTwitter">Follow Twitter</button>
+      <button id="followTelegram">Follow Telegram</button>
+    </div>
+
+    <button id="profileButton">Profile Settings</button>
+    <button id="searchIdButton">Search ID</button>
+
+    <div id="profileSettings" class="hidden">
+      <h2>Profile Settings</h2>
+      <input type="text" id="profileName" placeholder="Name" required>
+      <input type="text" id="telegramWallet" placeholder="Telegram Wallet Address" required>
+      <button id="saveProfile">Save Profile</button>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
 </body>
+
 </html>

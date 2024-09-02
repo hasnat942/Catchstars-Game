@@ -8,46 +8,28 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="animated-title">Catchstars Game</h1>
-
-        <!-- Mining Section -->
-        <div id="mining-section">
-            <button id="collect-button" class="animated-button" onclick="collectStars()">Collect Coins</button>
-            <p id="collected-info">You have collected: <span id="collected-stars" class="bold-text animated-text">0</span> Coins</p>
-            <p class="animated-text">Mining Rate: <span id="mining-rate">1</span> coins per click</p>
-            <div class="progress-bar animated-bar">
-                <div id="progress"></div>
-            </div>
-        </div>
+        <h1>Catchstars Game</h1>
+        <h2 id="collectedCoins">Coins: 0</h2>
+        <h2 id="farmingCoins">Farming Coins: 0</h2>
+        <h2 id="level">Level: 1</h2>
+        <h2 id="rank">Rank: Beginner</h2>
         
-        <!-- Navigation Buttons -->
-        <div id="navigation-section">
-            <button class="animated-button" onclick="window.location.href='tasks.html'">Tasks</button>
-            <button class="animated-button" onclick="window.location.href='leaderboard.html'">Leaderboard</button>
-        </div>
-
-        <!-- Referral Section -->
-        <div id="referral-section">
-            <h2>Referral Rewards</h2>
-            <p>Invite your friends to earn rewards:</p>
-            <ul>
-                <li>Each invite: +1% Mining Rate Increase</li>
-                <li>3 invites: Additional 10 Coins</li>
-                <li>5 invites: Additional 20 Coins</li>
-                <li>10 invites: Additional 50 Coins</li>
-                <li>100 invites: Grand Prize of 1000 Coins</li>
-            </ul>
-            <button id="invite-button" class="animated-button" onclick="copyReferralLink()">Copy Referral Link</button>
-        </div>
-
-        <!-- Level and Ranking Section -->
-        <div id="level-ranking-section">
-            <h2>Levels and Ranking</h2>
-            <p>Level: <span id="level">1</span></p>
-            <p>Rank: <span id="rank">Rookie</span></p>
+        <!-- Daily Check-In Button -->
+        <button id="dailyCheckInBtn" onclick="dailyCheckIn()">Daily Check-In</button>
+        
+        <!-- Farming Button -->
+        <button id="startFarmingBtn" onclick="startFarming()">Start Farming</button>
+        
+        <!-- Task and Social Task Buttons -->
+        <button id="taskBtn" onclick="completeTask(1)">Complete Task</button>
+        <button id="socialTaskBtn" onclick="completeSocialTask('Twitter')">Complete Social Task</button>
+        
+        <!-- Leaderboard Section -->
+        <div id="leaderboard" class="leaderboard">
+            <h3>Leaderboard</h3>
+            <!-- Leaderboard entries will be dynamically generated here -->
         </div>
     </div>
-    
     <script src="script.js"></script>
 </body>
 </html>

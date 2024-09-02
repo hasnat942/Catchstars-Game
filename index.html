@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catchstars Game</title>
     <link rel="stylesheet" href="styles.css">
@@ -9,26 +10,15 @@
 <body>
     <div class="container">
         <h1>Catchstars Game</h1>
-        <h2 id="collectedCoins">Coins: 0</h2>
-        <h2 id="farmingCoins">Farming Coins: 0</h2>
-        <h2 id="level">Level: 1</h2>
-        <h2 id="rank">Rank: Beginner</h2>
-        
-        <!-- Daily Check-In Button -->
-        <button id="dailyCheckInBtn" onclick="dailyCheckIn()">Daily Check-In</button>
-        
-        <!-- Farming Button -->
-        <button id="startFarmingBtn" onclick="startFarming()">Start Farming</button>
-        
-        <!-- Task and Social Task Buttons -->
-        <button id="taskBtn" onclick="completeTask(1)">Complete Task</button>
-        <button id="socialTaskBtn" onclick="completeSocialTask('Twitter')">Complete Social Task</button>
-        
-        <!-- Leaderboard Section -->
-        <div id="leaderboard" class="leaderboard">
-            <h3>Leaderboard</h3>
-            <!-- Leaderboard entries will be dynamically generated here -->
-        </div>
+        <p id="coins">Coins: 0</p>
+        <p id="farmingCoins">Farming Coins: 0</p>
+        <p id="level">Level: 1</p>
+        <p id="rank">Rank: Beginner</p>
+        <button onclick="dailyCheckIn()">Daily Check-In</button>
+        <button onclick="startFarming()">Start Farming</button>
+        <button onclick="completeTask()">Complete Task</button>
+        <button onclick="completeSocialTask()">Complete Social Task</button>
+        <button onclick="updateLeaderboard()">Leaderboard</button>
     </div>
     <script src="script.js"></script>
 </body>

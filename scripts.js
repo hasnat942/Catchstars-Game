@@ -1,3 +1,4 @@
+// Initialize variables
 let collectedCoins = parseInt(localStorage.getItem('collectedCoins')) || 0;
 let farmingCoins = parseInt(localStorage.getItem('farmingCoins')) || 0;
 let farmingLimit = 20; // Daily limit for farming coins
@@ -10,7 +11,7 @@ let checkInBonus = 5; // Base bonus for daily check-in
 let checkInStreak = parseInt(localStorage.getItem('checkInStreak')) || 0;
 let lastCheckInTime = localStorage.getItem('lastCheckInTime') ? new Date(localStorage.getItem('lastCheckInTime')) : null;
 
-// Update the display for collected coins, level, rank, etc.
+// Update the display
 function updateDisplay() {
     document.getElementById('collectedCoins').textContent = `Coins: ${collectedCoins}`;
     document.getElementById('farmingCoins').textContent = `Farming Coins: ${farmingCoins}`;

@@ -1,21 +1,31 @@
-let collectedCoins = 0;
-let farmingCoins = 0; // Coins earned from farming
+let collectedCoins = parseInt(localStorage.getItem('collectedCoins')) || 0;
+let farmingCoins = parseInt(localStorage.getItem('farmingCoins')) || 0;
 let farmingLimit = 20; // Daily limit for farming coins
-let invites = 0;
-let level = 1;
-let rank = "Beginner";
-let tasksCompleted = 0;
-let socialTasksCompleted = 0;
+let invites = parseInt(localStorage.getItem('invites')) || 0;
+let level = parseInt(localStorage.getItem('level')) || 1;
+let rank = localStorage.getItem('rank') || "Beginner";
+let tasksCompleted = parseInt(localStorage.getItem('tasksCompleted')) || 0;
+let socialTasksCompleted = parseInt(localStorage.getItem('socialTasksCompleted')) || 0;
 let checkInBonus = 5; // Base bonus for daily check-in
-let checkInStreak = 0; // Track daily check-ins
-let lastCheckInTime = null; // Last check-in time
+let checkInStreak = parseInt(localStorage.getItem('checkInStreak')) || 0;
+let lastCheckInTime = localStorage.getItem('lastCheckInTime') ? new Date(localStorage.getItem('lastCheckInTime')) : null;
 
 // Update the display for collected coins, level, rank, etc.
 function updateDisplay() {
-    document.getElementById('collectedCoins').textContent = collectedCoins;
-    document.getElementById('farmingCoins').textContent = farmingCoins;
-    document.getElementById('level').textContent = level;
-    document.getElementById('rank').textContent = rank;
+    document.getElementById('collectedCoins').textContent = `Coins: ${collectedCoins}`;
+    document.getElementById('farmingCoins').textContent = `Farming Coins: ${farmingCoins}`;
+    document.getElementById('level').textContent = `Level: ${level}`;
+    document.getElementById('rank').textContent = `Rank: ${rank}`;
+
+    // Save data to local storage
+    localStorage.setItem('collectedCoins', collectedCoins);
+    localStorage.setItem('farmingCoins', farmingCoins);
+    localStorage.setItem('level', level);
+    localStorage.setItem('rank', rank);
+    localStorage.setItem('tasksCompleted', tasksCompleted);
+    localStorage.setItem('socialTasksCompleted', socialTasksCompleted);
+    localStorage.setItem('checkInStreak', checkInStreak);
+    localStorage.setItem('lastCheckInTime', lastCheckInTime);
 }
 
 // Daily Check-in Bonus
@@ -64,7 +74,7 @@ function completeSocialTask(platform) {
     updateDisplay();
 }
 
-// Update the level and rank based on the collected coins
+// Function to update the level and rank based on the collected coins
 function updateLevelAndRank() {
     if (collectedCoins >= 500) {
         level++;
@@ -96,18 +106,9 @@ function displayLeaderboard() {
     });
 }
 
-// Function to add animations
-function addAnimations() {
-    const elements = document.querySelectorAll('.animated');
-    elements.forEach(element => {
-        element.classList.add('animate__animated', 'animate__bounceIn');
-    });
-}
-
 // Initialize the game
 function initializeGame() {
     updateDisplay();
-    addAnimations();
 }
 
 // Call initialize on page load

@@ -1,137 +1,111 @@
-const checkInButton = document.getElementById("checkInButton");
-const coinsDisplay = document.getElementById("coins");
-const referralLinkInput = document.getElementById("referralLink");
-const copyReferralLinkButton = document.getElementById("copyReferralLink");
-const referralMessage = document.getElementById("referralMessage");
-const userIdDisplay = document.getElementById("userId");
-const profileButton = document.getElementById("profileButton");
-const searchIdButton = document.getElementById("searchIdButton");
-const profileSettings = document.getElementById("profileSettings");
-const profileNameInput = document.getElementById("profileName");
-const telegramWalletInput = document.getElementById("telegramWallet");
-const saveProfileButton = document.getElementById("saveProfile");
+let collectedCoins = 0;
+let miningRate = 1; // Initial mining rate
+let invites = 0;
+let level = 1;
+let rank = "Beginner";
+let tasksCompleted = 0;
+let socialTasksCompleted = 0;
 
-// Define constants
-const dailyCoins = 20;
-const maxCoins = 5000;
-const checkInInterval = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-// Retrieve or initialize the user ID
-let userId = localStorage.getItem("userId");
-if (!userId) {
-  userId = generateUserId();
-  localStorage.setItem("userId", userId);
+// Update the collection, mining rate, level, and rank display
+function updateDisplay() {
+    document.getElementById('collectedCoins').textContent = collectedCoins;
+    document.getElementById('miningRate').textContent = miningRate.toFixed(2);
+    document.getElementById('level').textContent = level;
+    document.getElementById('rank').textContent = rank;
 }
 
-// Display user ID
-userIdDisplay.textContent = `Your ID: ${userId}`;
-
-// Generate and display referral link
-const telegramBotUsername = "Catchstars_bot";
-const referralLink = `https://t.me/${telegramBotUsername}?start=${userId}`;
-referralLinkInput.value = referralLink;
-
-// Retrieve or initialize the coins count and last check-in time
-let coins = parseInt(localStorage.getItem("coins"), 10);
-let lastCheckIn = parseInt(localStorage.getItem("lastCheckIn"), 10);
-if (isNaN(coins)) {
-  coins = 0;
-}
-if (isNaN(lastCheckIn)) {
-  lastCheckIn = 0;
-}
-coinsDisplay.textContent = coins;
-
-// Check if the button should be disabled
-if (Date.now() - lastCheckIn < checkInInterval) {
-  disableCheckInButton();
+// Function to collect coins
+function collectCoins() {
+    collectedCoins += miningRate;
+    updateLevelAndRank();
+    updateDisplay();
 }
 
-checkInButton.addEventListener("click", () => {
-  const now = Date.now();
-  if (now - lastCheckIn >= checkInInterval) {
-    coins = Math.min(coins + dailyCoins, maxCoins);
-    coinsDisplay.textContent = coins;
-    localStorage.setItem("coins", coins);
-    localStorage.setItem("lastCheckIn", now);
-
-    // Disable button immediately and show "Done!" text
-    checkInButton.disabled = true;
-    checkInButton.textContent = "Done!";
-    checkInButton.classList.add("animate-done");
-
-    // Set a 2-second timeout for alert and then re-enable after 24 hours
-    setTimeout(() => {
-      alert(`You collected ${dailyCoins} coins today!`);
-      disableCheckInButton(); // Keep the button disabled until 24 hours have passed
-    }, 2000);
-  } else {
-    alert("You can only check-in once every 24 hours.");
-  }
-});
-
-function disableCheckInButton() {
-  checkInButton.disabled = true;
-  checkInButton.style.backgroundColor = "#999"; // Change button color to indicate disabled state
-  checkInButton.textContent = "Check-In Done! (Try again tomorrow)";
-  setTimeout(() => {
-    enableCheckInButton();
-  }, checkInInterval - (Date.now() - lastCheckIn));
+// Copy the referral link and handle invite rewards
+function copyReferralLink() {
+    let referralLink = "https://yourwebsite.com/referral";
+    navigator.clipboard.writeText(referralLink);
+    invites++;
+    checkInviteRewards();
+    alert(`Referral link copied! Invite friends to increase your mining rate.`);
 }
 
-function enableCheckInButton() {
-  checkInButton.disabled = false;
-  checkInButton.style.backgroundColor = "#555";
-  checkInButton.textContent = "Daily Check-In";
-  checkInButton.classList.remove("animate-done");
+// Check and apply referral rewards
+function checkInviteRewards() {
+    if (invites === 3) {
+        collectedCoins += 10;
+    } else if (invites === 5) {
+        collectedCoins += 20;
+    } else if (invites === 10) {
+        collectedCoins += 50;
+    } else if (invites === 100) {
+        collectedCoins += 1000;
+    }
+    miningRate += (invites * 0.01);
+    updateDisplay();
 }
 
-function generateUserId() {
-  return Math.floor(Math.random() * 1000000);
+// Update the level and rank based on the collected coins
+function updateLevelAndRank() {
+    if (collectedCoins >= 500) {
+        level++;
+    }
+    if (collectedCoins >= 1000) {
+        rank = 'Pro';
+    }
+    updateDisplay();
 }
 
-// Handling follow buttons
-const followYouTubeButton = document.getElementById("followYouTube");
-const followTwitterButton = document.getElementById("followTwitter");
-const followTelegramButton = document.getElementById("followTelegram");
-
-followYouTubeButton.addEventListener("click", () => {
-  openLinkInNewTab("https://www.youtube.com/@catchstars942");
-});
-
-followTwitterButton.addEventListener("click", () => {
-  openLinkInNewTab(
-    "https://x.com/catchstars_CTH?t=5F3k7CY_6F3B2eM9OmPPVw&s=09"
-  );
-});
-
-followTelegramButton.addEventListener("click", () => {
-  openLinkInNewTab("https://t.me/catchstars942");
-});
-
-function openLinkInNewTab(url) {
-  window.open(url, "_blank");
+// Task Completion Logic
+function completeTask(taskId) {
+    tasksCompleted++;
+    collectedCoins += 5; // Reward for each task
+    alert(`Task ${taskId} completed! You earned 5 coins.`);
+    updateDisplay();
 }
 
-copyReferralLinkButton.addEventListener("click", () => {
-  referralLinkInput.select();
-  document.execCommand("copy");
-  alert("Referral link copied to clipboard!");
-});
+// Social Task Completion Logic
+function completeSocialTask(platform) {
+    socialTasksCompleted++;
+    collectedCoins += 10; // Reward for each social task
+    alert(`You completed a task on ${platform}! You earned 10 coins.`);
+    updateDisplay();
+}
 
-profileButton.addEventListener("click", () => {
-  profileSettings.classList.toggle("hidden");
-});
+// Leaderboard management
+let leaderboard = [];
 
-saveProfileButton.addEventListener("click", () => {
-  const name = profileNameInput.value;
-  const walletAddress = telegramWalletInput.value;
+// Function to update the leaderboard
+function updateLeaderboard(userName, userCoins) {
+    leaderboard.push({ name: userName, coins: userCoins });
+    leaderboard.sort((a, b) => b.coins - a.coins); // Sort in descending order by coins
+    displayLeaderboard();
+}
 
-  if (name && walletAddress) {
-    alert("Profile settings saved!");
-    // Save profile information to the server here
-    profileSettings.classList.add("hidden");
-  } else {
-    alert("Please fill in all required fields.");
-  }
-});
+// Function to display the leaderboard
+function displayLeaderboard() {
+    const leaderboardElement = document.getElementById('leaderboard');
+    leaderboardElement.innerHTML = '';
+    leaderboard.forEach((user, index) => {
+        const entry = document.createElement('div');
+        entry.textContent = `${index + 1}. ${user.name} - ${user.coins} Coins`;
+        leaderboardElement.appendChild(entry);
+    });
+}
+
+// Function to add animations
+function addAnimations() {
+    const elements = document.querySelectorAll('.animated');
+    elements.forEach(element => {
+        element.classList.add('animate__animated', 'animate__bounceIn');
+    });
+}
+
+// Initialize the game
+function initializeGame() {
+    updateDisplay();
+    addAnimations();
+}
+
+// Call initialize on page load
+document.addEventListener('DOMContentLoaded', initializeGame);

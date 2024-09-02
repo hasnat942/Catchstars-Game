@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catchstar Mine to Earn</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catchstars Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <div class="container">
-    <h1>Catchstar Mine to Earn</h1>
-    <div id="coins">0</div>
-    <button id="checkInButton">Daily Check-In</button>
-    <input type="text" id="referralLink" readonly>
-    <button id="copyReferralLink">Copy Referral Link</button>
-    <div id="referralMessage"></div>
-    <div id="userId">Your ID: 123456</div>
+    <div class="container">
+        <h1 class="animated-title">Catchstars Game</h1>
 
-    <div class="social-rewards">
-      <button id="followYouTube">Follow YouTube</button>
-      <button id="followTwitter">Follow Twitter</button>
-      <button id="followTelegram">Follow Telegram</button>
+        <!-- Mining Section -->
+        <div id="mining-section">
+            <button id="collect-button" class="animated-button" onclick="collectStars()">Collect Coins</button>
+            <p id="collected-info">You have collected: <span id="collected-stars" class="bold-text animated-text">0</span> Coins</p>
+            <p class="animated-text">Mining Rate: <span id="mining-rate">1</span> coins per click</p>
+            <div class="progress-bar animated-bar">
+                <div id="progress"></div>
+            </div>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div id="navigation-section">
+            <button class="animated-button" onclick="window.location.href='tasks.html'">Tasks</button>
+            <button class="animated-button" onclick="window.location.href='leaderboard.html'">Leaderboard</button>
+        </div>
+
+        <!-- Referral Section -->
+        <div id="referral-section">
+            <h2>Referral Rewards</h2>
+            <p>Invite your friends to earn rewards:</p>
+            <ul>
+                <li>Each invite: +1% Mining Rate Increase</li>
+                <li>3 invites: Additional 10 Coins</li>
+                <li>5 invites: Additional 20 Coins</li>
+                <li>10 invites: Additional 50 Coins</li>
+                <li>100 invites: Grand Prize of 1000 Coins</li>
+            </ul>
+            <button id="invite-button" class="animated-button" onclick="copyReferralLink()">Copy Referral Link</button>
+        </div>
+
+        <!-- Level and Ranking Section -->
+        <div id="level-ranking-section">
+            <h2>Levels and Ranking</h2>
+            <p>Level: <span id="level">1</span></p>
+            <p>Rank: <span id="rank">Rookie</span></p>
+        </div>
     </div>
-
-    <button id="profileButton">Profile Settings</button>
-    <button id="searchIdButton">Search ID</button>
-
-    <div id="profileSettings" class="hidden">
-      <h2>Profile Settings</h2>
-      <input type="text" id="profileName" placeholder="Name" required>
-      <input type="text" id="telegramWallet" placeholder="Telegram Wallet Address" required>
-      <button id="saveProfile">Save Profile</button>
-    </div>
-  </div>
-
-  <script src="scripts.js"></script>
+    
+    <script src="script.js"></script>
 </body>
-
 </html>

@@ -2,24 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catchstars Game</title>
+    <title>Catchstar Mine to Earn</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Catchstar ⭐ Mine to Earn</h1>
+    </header>
+
     <div class="container">
-        <h1>Catchstars Game</h1>
-        <p id="coins">Coins: 0</p>
-        <p id="farmingCoins">Farming Coins: 0</p>
-        <p id="level">Level: 1</p>
-        <p id="rank">Rank: Beginner</p>
-        <button onclick="dailyCheckIn()">Daily Check-In</button>
-        <button onclick="startFarming()">Start Farming</button>
-        <button onclick="completeTask()">Complete Task</button>
-        <button onclick="completeSocialTask()">Complete Social Task</button>
-        <button onclick="updateLeaderboard()">Leaderboard</button>
+        <!-- Daily Check-in Section -->
+        <div class="daily-check-in">
+            <button id="checkInBtn">Daily Check-in</button>
+            <p id="checkInMessage"></p>
+        </div>
+
+        <!-- Referral Section -->
+        <div class="referral-section">
+            <h2>Referral Rewards</h2>
+            <ul>
+                <li>Refer 3 Friends: +25,000 Coins</li>
+                <li>Refer 5 Friends: +50,000 Coins</li>
+                <li>Refer 10 Friends: +100,000 Coins</li>
+                <li>Refer 100 Friends: +1,000,000 Coins</li>
+            </ul>
+            <button id="copyReferralLink">Copy Referral Link</button>
+        </div>
+
+        <!-- Social Task Section -->
+        <div class="social-tasks">
+            <h2>Social Rewards</h2>
+            <ul>
+                <li>Follow Twitter: +125 Stars</li>
+                <li>Subscribe YouTube: +125 Stars</li>
+                <li>Join Telegram: +125 Stars</li>
+            </ul>
+        </div>
     </div>
+
+    <footer>
+        <button onclick="window.location.href='leaderboard.html'">Leaderboard</button>
+        <button onclick="window.location.href='friends.html'">Friends</button>
+        <button onclick="window.location.href='wallet.html'">Wallet Connect</button>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

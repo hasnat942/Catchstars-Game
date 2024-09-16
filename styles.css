@@ -1,125 +1,85 @@
-/* General Styles */
+/* Block Desktop Users */
+@media only screen and (min-width: 768px) {
+    body {
+        display: none;
+    }
+    body::before {
+        content: 'This site is only available on mobile devices.';
+        display: block;
+        text-align: center;
+        font-size: 24px;
+        color: red;
+        margin-top: 20%;
+    }
+}
+
+/* Mobile-First Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #00f;
+    background-color: #0d1b2a; /* Dark theme background */
+    color: #fff; /* Text color */
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    text-align: center;
+}
+
+header {
+    background-color: #1b263b;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 1.5em;
+    color: #f0a500;
 }
 
 .container {
-    text-align: center;
-    max-width: 400px;
     padding: 20px;
-    border: 2px solid #00f;
-    border-radius: 15px;
-    background-color: #111;
-}
-
-.bold-text {
-    font-weight: bold;
-    font-size: 18px;
 }
 
 button {
-    background-color: #00f;
-    color: #fff;
-    padding: 10px 20px;
+    background-color: #f0a500;
+    color: #0d1b2a;
     border: none;
+    padding: 15px 30px;
+    font-size: 1em;
+    margin: 10px 0;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px 0;
-    animation: button-glow 1.5s infinite;
+    width: 80%;
 }
 
 button:hover {
-    background-color: #0056b3;
-    animation: button-hover 0.5s;
+    background-color: #d18b00;
 }
 
-/* Animations */
-@keyframes button-glow {
-    0% {
-        box-shadow: 0 0 5px #00f;
-    }
-    50% {
-        box-shadow: 0 0 20px #00f;
-    }
-    100% {
-        box-shadow: 0 0 5px #00f;
-    }
+.referral-section, .social-tasks {
+    margin-top: 20px;
 }
 
-@keyframes button-hover {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #1b263b;
+    padding: 10px;
 }
 
-.animated-title {
-    animation: title-fade 3s infinite;
+footer button {
+    width: 30%;
+    margin: 0 1%;
 }
 
-@keyframes title-fade {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+ul {
+    list-style: none;
+    padding: 0;
 }
 
-.animated-button {
-    animation: button-bounce 2s infinite;
+ul li {
+    background-color: #1b263b;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
 }
 
-@keyframes button-bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-.animated-list {
-    animation: list-pop 2s infinite;
-}
-
-@keyframes list-pop {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.animated-bar {
-    animation: bar-fill 2s infinite;
-}
-
-@keyframes bar-fill {
-    0% {
-        width: 0%;
-    }
-    50% {
-        width: 50%;
-    }
-    100% {
-        width: 0%;
-    }
-}

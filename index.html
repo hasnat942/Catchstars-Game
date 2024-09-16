@@ -17,6 +17,7 @@
         <div class="daily-check-in">
             <button id="checkInBtn">Daily Check-in</button>
             <p id="checkInMessage"></p>
+            <p id="currentStreak">Current Streak: 0</p>
         </div>
 
         <!-- Referral Section -->
@@ -28,6 +29,7 @@
                 <li>Refer 10 Friends: +100,000 Coins</li>
                 <li>Refer 100 Friends: +1,000,000 Coins</li>
             </ul>
+            <p id="referralLink"></p>
             <button id="copyReferralLink">Copy Referral Link</button>
         </div>
 
@@ -45,7 +47,8 @@
     <footer>
         <button onclick="window.location.href='leaderboard.html'">Leaderboard</button>
         <button onclick="window.location.href='friends.html'">Friends</button>
-        <button onclick="window.location.href='wallet.html'">Wallet Connect</button>
+        <button id="connectWalletButton" class="button">Connect Wallet</button>
     </footer>
 </body>
 </html>
+

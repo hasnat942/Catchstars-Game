@@ -1,85 +1,45 @@
 /* Block Desktop Users */
-@media only screen and (min-width: 768px) {
-    body {
-        display: none;
-    }
-    body::before {
-        content: 'This site is only available on mobile devices.';
-        display: block;
-        text-align: center;
-        font-size: 24px;
-        color: red;
-        margin-top: 20%;
-    }
-}
-
-/* Mobile-First Styles */
-body {
+@media only screen and (min-width: 768px) 
+       body {
     font-family: Arial, sans-serif;
-    background-color: #0d1b2a; /* Dark theme background */
-    color: #fff; /* Text color */
-    margin: 0;
-    padding: 0;
+    background-color: #121212;
+    color: #fff;
     text-align: center;
-}
-
-header {
-    background-color: #1b263b;
+    margin: 0;
     padding: 20px;
 }
 
 h1 {
-    font-size: 1.5em;
-    color: #f0a500;
-}
-
-.container {
-    padding: 20px;
+    color: #00bfff;
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
 button {
-    background-color: #f0a500;
-    color: #0d1b2a;
+    background-color: #00bfff;
+    color: #fff;
+    font-size: 1.2em;
+    padding: 10px 20px;
     border: none;
-    padding: 15px 30px;
-    font-size: 1em;
-    margin: 10px 0;
-    border-radius: 5px;
     cursor: pointer;
+    margin: 10px;
+}
+
+button:disabled {
+    background-color: #555;
+}
+
+button.bold {
+    font-weight: bold;
+}
+
+input {
+    background-color: #2c2c2c;
+    color: #fff;
+    border: none;
+    padding: 10px;
     width: 80%;
+    font-size: 1.1em;
 }
 
-button:hover {
-    background-color: #d18b00;
-}
-
-.referral-section, .social-tasks {
-    margin-top: 20px;
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #1b263b;
-    padding: 10px;
-}
-
-footer button {
-    width: 30%;
-    margin: 0 1%;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-ul li {
-    background-color: #1b263b;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-}
 

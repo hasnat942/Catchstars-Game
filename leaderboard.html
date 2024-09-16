@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catchstars Leaderboard</title>
+    <title>Leaderboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Leaderboard</h1>
+    </header>
+
     <div class="container">
-        <h1 class="animated-title">Catchstars Leaderboard</h1>
-        <ol id="leaderboard" class="animated-list">
-            <!-- Dynamic top players will be listed here -->
-            <li>Player1 - 500 Coins</li>
-            <li>Player2 - 400 Coins</li>
-            <li>Player3 - 300 Coins</li>
-        </ol>
-        <button class="animated-button" onclick="window.location.href='index.html'">Back to Main</button>
+        <table id="leaderboardTable">
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Coins</th>
+            </tr>
+            <!-- Leaderboard entries will be populated dynamically -->
+        </table>
     </div>
+
+    <footer>
+        <button onclick="window.location.href='index.html'">Back</button>
+    </footer>
+
+    <script src="leaderboard.js"></script>
 </body>
 </html>

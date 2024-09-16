@@ -1,9 +1,36 @@
+// Daily Check-in Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const checkInButton = document.getElementById('checkInButton');
-    const lastCheckInTime = localStorage.getItem('lastCheckInTime');
-    const now = new Date().getTime();
+    const checkInButton = document.getElementById('checkInBtn');
+    const checkInMessage = document.getElementById('checkInMessage');
+    const currentStreak = document.getElementById('currentStreak');
+    const lastCheckInDate = localStorage.getItem('lastCheckInDate');
+    const now = new Date();
+    let streak = parseInt(localStorage.getItem('streak') || '0', 10);
+    const streakDays = [100, 200, 300, 400, 500, 600, 700];
 
-    if (lastCheckInTime && now - lastCheckInTime < 24 * 60 * 60 * 1000) {
+    function updateStreak() {
+        if (lastCheckInDate) {
+            const lastCheckIn = new Date(lastCheckInDate);
+            if (now - lastCheckIn > 24 * 60 * 60 * 1000) {
+                streak = 0; // Reset streak if not checked in for 24 hours
+            } else {
+                streak = Math.min(streak + 1, 7); // Max streak is 7 days
+            }
+        } else {
+            streak = 1;
+        }
+
+        if (streak > 7) {
+            streak = 1; // Reset streak if it exceeds 7 days
+        }
+        
+        localStorage.setItem('streak', streak);
+        localStorage.setItem('lastCheckInDate', now.toISOString());
+        currentStreak.textContent = `Current Streak: ${streakDays[streak - 1] || 0} Coins`;
+        checkInMessage.textContent = `You have earned ${streakDays[streak - 1] || 0} Coins for today!`;
+    }
+
+    if (lastCheckInDate && now - new Date(lastCheckInDate) < 24 * 60 * 60 * 1000) {
         checkInButton.disabled = true;
         checkInButton.textContent = 'Come back in 24 hours';
     } else {
@@ -11,19 +38,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     checkInButton.addEventListener('click', function() {
-        localStorage.setItem('lastCheckInTime', new Date().getTime());
+        updateStreak();
         checkInButton.disabled = true;
         checkInButton.textContent = 'Come back in 24 hours';
     });
 });
 
-
+// Referral Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const referralButton = document.getElementById('referralButton');
-    const referralLinkText = document.getElementById('referralLinkText');
-    const userId = 'YOUR_TELEGRAM_USER_ID'; // Replace with actual logic for getting user's ID
-    
-    const referralLink = `https://t.me/YOUR_BOT_USERNAME?start=${userId}`;
+    const referralButton = document.getElementById('copyReferralLink');
+    const referralLinkText = document.getElementById('referralLink');
+    const botUsername = 'Catchstars_bot'; // Your bot's username
+    const userId = 'YOUR_TELEGRAM_USER_ID'; // Replace this dynamically or fetch from the bot
+
+    // Function to get user ID dynamically
+    function getUserId() {
+        // Replace with your logic to fetch user ID if needed
+        return 'DYNAMIC_USER_ID'; // Placeholder for dynamic user ID fetching
+    }
+
+    const referralLink = `https://t.me/${botUsername}?start=${getUserId()}`;
     referralLinkText.textContent = referralLink;
 
     referralButton.addEventListener('click', function() {
@@ -35,7 +69,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Wallet Connect Button Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const connectWalletButton = document.getElementById('connectWalletButton');
+    connectWalletButton.addEventListener('click', function() {
+        window.location.href = 'ton://connect'; // Ensure this URL scheme is correct for your wallet
+    });
+});
 
-    <a href="ton://connect" id="connectWalletButton" class="button">Connect Wallet</a>
 
 

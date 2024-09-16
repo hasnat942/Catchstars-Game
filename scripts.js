@@ -1,36 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Daily Check-in
-    const checkinButton = document.getElementById('daily-checkin');
-    const checkinMsg = document.getElementById('checkin-msg');
+    const checkInButton = document.getElementById('checkInButton');
+    const lastCheckInTime = localStorage.getItem('lastCheckInTime');
+    const now = new Date().getTime();
 
-    checkinButton.addEventListener('click', function() {
-        checkinButton.disabled = true;
-        checkinMsg.textContent = "You have checked in today!";
-        // Simulate 24-hour lock by disabling the button for 24 hours
-        setTimeout(() => {
-            checkinButton.disabled = false;
-            checkinMsg.textContent = "";
-        }, 24 * 60 * 60 * 1000);  // 24 hours in milliseconds
-    });
+    if (lastCheckInTime && now - lastCheckInTime < 24 * 60 * 60 * 1000) {
+        checkInButton.disabled = true;
+        checkInButton.textContent = 'Come back in 24 hours';
+    } else {
+        checkInButton.disabled = false;
+    }
 
-    // Referral Link Copy
-    const referralInput = document.getElementById('referral-link');
-    const copyButton = document.getElementById('copy-referral');
-
-    copyButton.addEventListener('click', function() {
-        referralInput.select();
-        referralInput.setSelectionRange(0, 99999); // For mobile devices
-        document.execCommand("copy");
-
-        alert("Referral link copied to clipboard!");
-    });
-
-    // Wallet Connect Button to TonSpace
-    const walletButton = document.getElementById('connect-wallet');
-
-    walletButton.addEventListener('click', function() {
-        window.open('https://ton.space', '_blank');
+    checkInButton.addEventListener('click', function() {
+        localStorage.setItem('lastCheckInTime', new Date().getTime());
+        checkInButton.disabled = true;
+        checkInButton.textContent = 'Come back in 24 hours';
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const referralButton = document.getElementById('referralButton');
+    const referralLinkText = document.getElementById('referralLinkText');
+    const userId = 'YOUR_TELEGRAM_USER_ID'; // Replace with actual logic for getting user's ID
+    
+    const referralLink = `https://t.me/YOUR_BOT_USERNAME?start=${userId}`;
+    referralLinkText.textContent = referralLink;
+
+    referralButton.addEventListener('click', function() {
+        navigator.clipboard.writeText(referralLink).then(function() {
+            alert('Referral link copied to clipboard!');
+        }).catch(function(err) {
+            console.error('Could not copy text: ', err);
+        });
+    });
+});
+
+
+    <a href="ton://connect" id="connectWalletButton" class="button">Connect Wallet</a>
 
 

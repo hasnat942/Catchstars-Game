@@ -16,13 +16,13 @@ h1 {
 }
 
 button {
-    background-color: #00bfff;
-    color: #fff;
-    font-size: 1.2em;
-    padding: 10px 20px;
-    border: none;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 1.4em;
+    padding: 1.3px 20px;
+    border: bold;
     cursor: pointer;
-    margin: 10px;
+    margin: 15px;
 }
 
 button:disabled {
@@ -40,6 +40,5 @@ input {
     padding: 10px;
     width: 80%;
     font-size: 1.1em;
-}
 
 

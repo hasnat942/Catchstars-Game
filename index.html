@@ -1,54 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catchstar - Mobile Only</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catchstar - Earn Rewards</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
+
 <body>
-    <header>
-        <h1>Catchstar ⭐ Mine to Earn</h1>
-    </header>
-
-    <div class="container">
-        <!-- Daily Check-in Section -->
-        <div class="daily-check-in">
-            <button id="checkInBtn">Daily Check-in</button>
-            <p id="checkInMessage"></p>
-            <p id="currentStreak">Current Streak: 0</p>
-        </div>
-
-        <!-- Referral Section -->
-        <div class="referral-section">
-            <h2>Referral Rewards</h2>
-            <ul>
-                <li>Refer 3 Friends: +25,000 Coins</li>
-                <li>Refer 5 Friends: +50,000 Coins</li>
-                <li>Refer 10 Friends: +100,000 Coins</li>
-                <li>Refer 100 Friends: +1,000,000 Coins</li>
-            </ul>
-            <p id="referralLink"></p>
-            <button id="copyReferralLink">Copy Referral Link</button>
-        </div>
-
-        <!-- Social Task Section -->
-        <div class="social-tasks">
-            <h2>Social Rewards</h2>
-            <ul>
-                <li>Follow Twitter: +125 Stars</li>
-                <li>Subscribe YouTube: +125 Stars</li>
-                <li>Join Telegram: +125 Stars</li>
-            </ul>
-        </div>
+  <header>
+    <div class="header-content">
+      <h1>Catchstar - Earn Stars & Coins</h1>
+      <p>Your journey to becoming a star collector begins here. Invite friends, complete tasks, and earn rewards!</p>
     </div>
+  </header>
 
-    <footer>
-        <button onclick="window.location.href='leaderboard.html'">Leaderboard</button>
-        <button onclick="window.location.href='friends.html'">Friends</button>
-        <button id="connectWalletButton" class="button">Connect Wallet</button>
-    </footer>
+  <main>
+    <section class="welcome-section">
+      <div class="welcome-text">
+        <h2>Welcome to Catchstar</h2>
+        <p>Catchstar allows you to earn coins and stars by completing simple tasks, inviting friends, and staying active daily. Collect coins and redeem them for exciting rewards. The more you invite, the more you earn!</p>
+      </div>
+      <div class="daily-check-in">
+        <h3>Daily Check-in</h3>
+        <button id="checkInBtn">Check-in for Today</button>
+        <p id="checkInMessage"></p>
+      </div>
+    </section>
+
+    <!-- Rewards Section -->
+    <section class="rewards-section">
+      <div class="section-header">
+        <h2>Earn More Stars & Coins</h2>
+        <p>Invite friends, complete social tasks, and unlock special rewards by growing your Catchstar network!</p>
+      </div>
+
+      <div class="rewards-content">
+        <!-- Referral Section -->
+        <div class="referral-container">
+          <h3>Referral Program</h3>
+          <p>Invite your friends to Catchstar and earn big rewards based on how many friends join using your referral link!</p>
+
+          <div class="invite-status">
+            <p>Friends Referred: <span id="invitesCount">0</span></p>
+            <button id="copyReferralLink">Copy Referral Link</button>
+            <p id="referralLinkText">Your referral link: <span id="referralLink"></span></p>
+          </div>
+
+          <div class="reward-container">
+            <div class="reward">
+              <p>Refer 3 Friends</p>
+              <button class="reward-btn" id="reward3">+25,000 Coins</button>
+            </div>
+            <div class="reward">
+              <p>Refer 5 Friends</p>
+              <button class="reward-btn" id="reward5">+50,000 Coins</button>
+            </div>
+            <div class="reward">
+              <p>Refer 10 Friends</p>
+              <button class="reward-btn" id="reward10">+100,000 Coins</button>
+            </div>
+            <div class="reward">
+              <p>Refer 100 Friends</p>
+              <button class="reward-btn" id="reward100">+1,000,000 Coins</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Tasks -->
+        <div class="social-tasks">
+          <h3>Social Tasks</h3>
+          <p>Complete social media tasks to earn stars and coins. Make sure you're connected to all of our channels!</p>
+
+          <div class="task-item">
+            <p>Follow us on Twitter</p>
+            <button id="twitterTask">+125 Stars</button>
+          </div>
+          <div class="task-item">
+            <p>Subscribe to our YouTube channel</p>
+            <button id="youtubeTask">+125 Stars</button>
+          </div>
+          <div class="task-item">
+            <p>Join our Telegram group</p>
+            <button id="telegramTask">+125 Stars</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="leaderboard-section">
+      <h2>Leaderboard</h2>
+      <p>See how you rank against other players. The more stars you collect, the higher your ranking!</p>
+      <button onclick="window.location.href='leaderboard.html'">View Leaderboard</button>
+    </section>
+
+    <section class="wallet-section">
+      <h2>Connect Your Wallet</h2>
+      <p>Connect your wallet to Catchstar and securely store the coins you've earned. Withdraw or exchange them anytime!</p>
+      <button id="connectWalletBtn">Connect Wallet</button>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-nav">
+      <button onclick="window.location.href='home.html'">Home</button>
+      <button onclick="window.location.href='profile.html'">Profile</button>
+      <button onclick="window.location.href='help.html'">Help & FAQ</button>
+    </div>
+    <p>&copy; 2024 Catchstar. All rights reserved.</p>
+  </footer>
 </body>
-</html>
 
+</html>

@@ -1,81 +1,58 @@
-// Daily Check-in Functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const checkInButton = document.getElementById('checkInBtn');
-    const checkInMessage = document.getElementById('checkInMessage');
-    const currentStreak = document.getElementById('currentStreak');
-    const lastCheckInDate = localStorage.getItem('lastCheckInDate');
-    const now = new Date();
-    let streak = parseInt(localStorage.getItem('streak') || '0', 10);
-    const streakDays = [100, 200, 300, 400, 500, 600, 700];
+document.addEventListener("DOMContentLoaded", () => {
+  // Check-in Functionality
+  const checkInBtn = document.getElementById("checkInBtn");
+  const checkInMessage = document.getElementById("checkInMessage");
 
-    function updateStreak() {
-        if (lastCheckInDate) {
-            const lastCheckIn = new Date(lastCheckInDate);
-            if (now - lastCheckIn > 24 * 60 * 60 * 1000) {
-                streak = 0; // Reset streak if not checked in for 24 hours
-            } else {
-                streak = Math.min(streak + 1, 7); // Max streak is 7 days
-            }
-        } else {
-            streak = 1;
-        }
-
-        if (streak > 7) {
-            streak = 1; // Reset streak if it exceeds 7 days
-        }
-        
-        localStorage.setItem('streak', streak);
-        localStorage.setItem('lastCheckInDate', now.toISOString());
-        currentStreak.textContent = `Current Streak: ${streakDays[streak - 1] || 0} Coins`;
-        checkInMessage.textContent = `You have earned ${streakDays[streak - 1] || 0} Coins for today!`;
-    }
-
-    if (lastCheckInDate && now - new Date(lastCheckInDate) < 24 * 60 * 60 * 1000) {
-        checkInButton.disabled = true;
-        checkInButton.textContent = 'Come back in 24 hours';
+  let checkedIn = false;
+  checkInBtn.addEventListener("click", () => {
+    if (!checkedIn) {
+      checkedIn = true;
+      checkInMessage.textContent =
+        "Check-in successful! You have earned 500 stars.";
+      checkInBtn.disabled = true;
     } else {
-        checkInButton.disabled = false;
+      checkInMessage.textContent = "You have already checked in today.";
     }
+  });
 
-    checkInButton.addEventListener('click', function() {
-        updateStreak();
-        checkInButton.disabled = true;
-        checkInButton.textContent = 'Come back in 24 hours';
+  // Referral Rewards Functionality
+  const referralRewards = {
+    3: 25000,
+    5: 50000,
+    10: 100000,
+    100: 1000000
+  };
+
+  let invitesCount = 0;
+
+  document.getElementById("copyReferralLink").addEventListener("click", () => {
+    const referralLink = "https://catchstar.com/referral/12345";
+    navigator.clipboard.writeText(referralLink).then(() => {
+      document.getElementById(
+        "referralLinkText"
+      ).textContent = `Referral link copied: ${referralLink}`;
     });
-});
+  });
 
-// Referral Functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const referralButton = document.getElementById('copyReferralLink');
-    const referralLinkText = document.getElementById('referralLink');
-    const botUsername = 'Catchstars_bot'; // Your bot's username
-    const userId = 'YOUR_TELEGRAM_USER_ID'; // Replace this dynamically or fetch from the bot
-
-    // Function to get user ID dynamically
-    function getUserId() {
-        // Replace with your logic to fetch user ID if needed
-        return 'DYNAMIC_USER_ID'; // Placeholder for dynamic user ID fetching
-    }
-
-    const referralLink = `https://t.me/${botUsername}?start=${getUserId()}`;
-    referralLinkText.textContent = referralLink;
-
-    referralButton.addEventListener('click', function() {
-        navigator.clipboard.writeText(referralLink).then(function() {
-            alert('Referral link copied to clipboard!');
-        }).catch(function(err) {
-            console.error('Could not copy text: ', err);
-        });
+  const rewardButtons = document.querySelectorAll(".reward-btn");
+  rewardButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const rewardForInvites = referralRewards[btn.id.replace("reward", "")];
+      if (invitesCount >= parseInt(btn.id.replace("reward", ""))) {
+        alert(`Congratulations! You've earned ${rewardForInvites} coins.`);
+        btn.disabled = true;
+      } else {
+        alert("You need more invites to claim this reward.");
+      }
     });
-});
+  });
 
-// Wallet Connect Button Functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const connectWalletButton = document.getElementById('connectWalletButton');
-    connectWalletButton.addEventListener('click', function() {
-        window.location.href = 'ton://connect'; // Ensure this URL scheme is correct for your wallet
+  // Social Task Buttons
+  const socialTaskButtons = document.querySelectorAll(".task-item button");
+  socialTaskButtons.forEach((taskButton) => {
+    taskButton.addEventListener("click", () => {
+      taskButton.disabled = true;
+      alert("Task completed! You've earned 125 stars.");
     });
+  });
 });
-
-
-

@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
   <title>Catchstar - Earn Rewards</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
+  <style>
+    /* Block non-mobile devices */
+    @media screen and (min-width: 768px) {
+      body {
+        display: none;
+        visibility: hidden;
+      }
+    }
+  </style>
 </head>
-
 <body>
   <header>
     <div class="header-content">
@@ -112,5 +120,4 @@
     <p>&copy; 2024 Catchstar. All rights reserved.</p>
   </footer>
 </body>
-
 </html>

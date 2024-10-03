@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
   <title>Catchstar - Earn Rewards</title>
-  
-  <!-- Firebase App (the core Firebase SDK) -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <!-- Firebase Analytics -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
-  <!-- Firebase Firestore -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
-  <!-- Your own scripts -->
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+  
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 
@@ -46,6 +43,8 @@
         <button id="checkInBtn">Check-in for Today</button>
         <p id="checkInMessage"></p>
       </div>
+      <!-- Total Coins Display -->
+      <p>Total Coins: <span id="totalCoins">0</span></p>
     </section>
 
     <!-- Rewards Section -->
@@ -117,14 +116,7 @@
     <section class="wallet-section">
       <h2>Connect Your Wallet</h2>
       <p>Connect your wallet to Catchstar and securely store the coins you've earned. Withdraw or exchange them anytime!</p>
-      <button id="connectWalletBtn">Connect Wallet</button>
-    </section>
-
-    <!-- Firestore Test Buttons -->
-    <section class="firestore-section">
-      <h2>Firestore Test</h2>
-      <button onclick="addData()">Add User Data</button>
-      <button onclick="getData()">Get User Data</button>
+      <button onclick="window.location.href='wallet.html'">Connect Wallet</button>
     </section>
   </main>
 
@@ -136,5 +128,77 @@
     </div>
     <p>&copy; 2024 Catchstar. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Firebase Configuration and Initialization
+    const firebaseConfig = {
+      apiKey: "AIzaSyAvuEg4cz87jLaZFp0jkVdkVCCnpU_L3MM",
+      authDomain: "catchstar-mining-game.firebaseapp.com",
+      projectId: "catchstar-mining-game",
+      storageBucket: "catchstar-mining-game.appspot.com",
+      messagingSenderId: "585571833493",
+      appId: "1:585571833493:web:1751bf232d73ac7a0bed9c",
+      measurementId: "G-BJY2B999R7"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Total Coins Functionality
+      function fetchTotalCoins() {
+        const userId = "your-user-id"; // Replace with your dynamic user ID logic
+        db.collection('users').doc(userId).get().then((doc) => {
+          if (doc.exists) {
+            const totalCoins = doc.data().coins;
+            document.getElementById('totalCoins').textContent = totalCoins;
+          } else {
+            console.log("No such document!");
+          }
+        }).catch((error) => {
+          console.log("Error getting document:", error);
+        });
+      }
+
+      // Initial call to fetch total coins
+      fetchTotalCoins();
+
+      // Daily Check-in Functionality
+      const checkInBtn = document.getElementById("checkInBtn");
+      const checkInMessage = document.getElementById("checkInMessage");
+
+      let checkedIn = localStorage.getItem('checkedIn') === 'true';
+
+      const updateCheckInStatus = () => {
+        if (checkedIn) {
+          checkInMessage.textContent = "You have already checked in today.";
+          checkInBtn.disabled = true;
+        } else {
+          checkInMessage.textContent = "";
+          checkInBtn.disabled = false;
+        }
+      };
+
+      updateCheckInStatus();
+
+      checkInBtn.addEventListener("click", () => {
+        if (!checkedIn) {
+          checkedIn = true;
+          localStorage.setItem('checkedIn', 'true');
+          checkInMessage.textContent = "Check-in successful! You have earned 500 stars.";
+          checkInBtn.disabled = true;
+
+          setTimeout(() => {
+            checkedIn = false;
+            localStorage.setItem('checkedIn', 'false');
+            updateCheckInStatus();
+          }, 24 * 60 * 60 * 1000);
+        }
+      });
+
+      // Referral Program and Social Task Functionality here...
+    });
+  </script>
 </body>
 </html>

@@ -5,29 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
   <title>Catchstar - Earn Rewards</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Firebase Configuration -->
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
-    
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyAvuEg4cz87jLaZFp0jkVdkVCCnpU_L3MM",
-      authDomain: "catchstar-mining-game.firebaseapp.com",
-      projectId: "catchstar-mining-game",
-      storageBucket: "catchstar-mining-game.appspot.com",
-      messagingSenderId: "585571833493",
-      appId: "1:585571833493:web:1751bf232d73ac7a0bed9c",
-      measurementId: "G-BJY2B999R7"
-    };
+  
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <!-- Firebase Analytics -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
+  <!-- Firebase Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
+  <!-- Your own scripts -->
+  <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
+
   <style>
     /* Block non-mobile devices */
     @media screen and (min-width: 768px) {
@@ -129,6 +118,13 @@
       <h2>Connect Your Wallet</h2>
       <p>Connect your wallet to Catchstar and securely store the coins you've earned. Withdraw or exchange them anytime!</p>
       <button id="connectWalletBtn">Connect Wallet</button>
+    </section>
+
+    <!-- Firestore Test Buttons -->
+    <section class="firestore-section">
+      <h2>Firestore Test</h2>
+      <button onclick="addData()">Add User Data</button>
+      <button onclick="getData()">Get User Data</button>
     </section>
   </main>
 

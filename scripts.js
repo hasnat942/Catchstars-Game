@@ -1,95 +1,104 @@
-// Firebase initialization
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAvuEg4cz87jLaZFp0jkVdkVCCnpU_L3MM",
-  authDomain: "catchstar-mining-game.firebaseapp.com",
-  projectId: "catchstar-mining-game",
-  storageBucket: "catchstar-mining-game.appspot.com",
-  messagingSenderId: "585571833493",
-  appId: "1:585571833493:web:1751bf232d73ac7a0bed9c",
-  measurementId: "G-BJY2B999R7"
-};
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-document.addEventListener("DOMContentLoaded", () => {
-  // Daily Check-in Logic
-  const checkInBtn = document.getElementById("checkInBtn");
-  const checkInMessage = document.getElementById("checkInMessage");
-
-  let checkedIn = localStorage.getItem('checkedIn') === 'true';
-
-  const updateCheckInStatus = () => {
-    if (checkedIn) {
-      checkInMessage.textContent = "You have already checked in today.";
-      checkInBtn.disabled = true;
-    } else {
-      checkInMessage.textContent = "";
-      checkInBtn.disabled = false;
-    }
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDmD2jb61ovT3sxFKxnXv-q1CkiJ_tboUg",
+    authDomain: "catchstar-4337e.firebaseapp.com",
+    projectId: "catchstar-4337e",
+    storageBucket: "catchstar-4337e.appspot.com",
+    messagingSenderId: "374195869840",
+    appId: "1:374195869840:web:bd4d6f86eed073fe152015",
+    measurementId: "G-0X376YTEQT"
   };
 
-  updateCheckInStatus();
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app); // Initialize Firestore
 
-  checkInBtn.addEventListener("click", () => {
-    if (!checkedIn) {
-      checkedIn = true;
-      localStorage.setItem('checkedIn', 'true');
-      checkInMessage.textContent = "Check-in successful! You have earned 500 stars.";
-      checkInBtn.disabled = true;
+  document.addEventListener("DOMContentLoaded", () => {
+    // Check-in Functionality
+    const checkInBtn = document.getElementById("checkInBtn");
+    const checkInMessage = document.getElementById("checkInMessage");
+    let checkedIn = false;
 
-      setTimeout(() => {
-        checkedIn = false;
-        localStorage.setItem('checkedIn', 'false');
-        updateCheckInStatus();
-      }, 24 * 60 * 60 * 1000); // Reset after 24 hours
-    }
-  });
+    checkInBtn.addEventListener("click", async () => {
+      if (!checkedIn) {
+        checkedIn = true;
+        checkInMessage.textContent =
+          "Check-in successful! You have earned 500 stars.";
+        checkInBtn.disabled = true;
 
-  // Referral Rewards Logic
-  const referralRewards = { 3: 25000, 5: 50000, 10: 100000, 100: 1000000 };
-  let invitesCount = parseInt(localStorage.getItem('invitesCount') || '0');
-  document.getElementById("invitesCount").textContent = invitesCount;
-
-  document.getElementById("copyReferralLink").addEventListener("click", () => {
-    const referralLink = "https://catchstar.com/referral/12345";
-    navigator.clipboard.writeText(referralLink).then(() => {
-      document.getElementById("referralLinkText").textContent = `Referral link copied: ${referralLink}`;
-    });
-  });
-
-  const rewardButtons = document.querySelectorAll(".reward-btn");
-  rewardButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const rewardThreshold = parseInt(btn.id.replace("reward", ""));
-      const rewardForInvites = referralRewards[rewardThreshold];
-
-      if (invitesCount >= rewardThreshold) {
-        alert(`Congratulations! You've earned ${rewardForInvites} coins.`);
-        btn.disabled = true;
-        localStorage.setItem(`reward${rewardThreshold}`, 'claimed');
+        // Add check-in reward to Firestore
+        await addScore("user123", 500); // Replace "user123" with the actual user ID
       } else {
-        alert("You need more invites to claim this reward.");
+        checkInMessage.textContent = "You have already checked in today.";
       }
     });
-  });
 
-  // Disable claimed rewards
-  Object.keys(referralRewards).forEach(threshold => {
-    if (localStorage.getItem(`reward${threshold}`) === 'claimed') {
-      document.getElementById(`reward${threshold}`).disabled = true;
+    // Function to add score to Firestore
+    async function addScore(userId, score) {
+      try {
+        const docRef = await addDoc(collection(db, "leaderboard"), {
+          userId: userId,
+          score: score,
+          timestamp: new Date()
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
-  });
 
-  // Social Task Buttons
-  const socialTaskButtons = document.querySelectorAll(".task-item button");
-  socialTaskButtons.forEach((taskButton) => {
-    taskButton.addEventListener("click", () => {
-      taskButton.disabled = true;
-      alert("Task completed! You've earned 125 stars.");
+    // Referral Rewards Functionality
+    const referralRewards = {
+      3: 25000,
+      5: 50000,
+      10: 100000,
+      100: 1000000
+    };
+
+    let invitesCount = 0;
+
+    document.getElementById("copyReferralLink").addEventListener("click", () => {
+      const referralLink = "https://catchstar.com/referral/12345";
+      navigator.clipboard.writeText(referralLink).then(() => {
+        document.getElementById(
+          "referralLinkText"
+        ).textContent = `Referral link copied: ${referralLink}`;
+      });
+    });
+
+    const rewardButtons = document.querySelectorAll(".reward-btn");
+    rewardButtons.forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const rewardForInvites = referralRewards[btn.id.replace("reward", "")];
+        if (invitesCount >= parseInt(btn.id.replace("reward", ""))) {
+          alert(`Congratulations! You've earned ${rewardForInvites} coins.`);
+          btn.disabled = true;
+
+          // Add referral reward to Firestore
+          await addScore("user123", rewardForInvites); // Replace "user123" with the actual user ID
+        } else {
+          alert("You need more invites to claim this reward.");
+        }
+      });
+    });
+
+    // Social Task Buttons
+    const socialTaskButtons = document.querySelectorAll(".task-item button");
+    socialTaskButtons.forEach((taskButton) => {
+      taskButton.addEventListener("click", async () => {
+        taskButton.disabled = true;
+        alert("Task completed! You've earned 125 stars.");
+
+        // Add social task reward to Firestore
+        await addScore("user123", 125); // Replace "user123" with the actual user ID
+      });
     });
   });
-});
+</script>
